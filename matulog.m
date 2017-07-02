@@ -22,7 +22,7 @@ function varargout = matulog(varargin)
 
 % Edit the above text to modify the response to help matulog
 
-% Last Modified by GUIDE v2.5 02-Jul-2017 16:12:11
+% Last Modified by GUIDE v2.5 02-Jul-2017 17:08:53
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -244,3 +244,5 @@ function listbox_fieldnames_KeyPressFcn(hObject, eventdata, handles)
 if strcmp(eventdata.Key,'leftarrow')
     uicontrol(handles.listbox_topics) % Make listbox_topics active
 end
+
+function topbar_plot_Callback(hObject, eventdata, handles)
