@@ -12,7 +12,12 @@ else
     start_dir = '~/';
 end
 [FileNameDotExt, current_dir_PathName, ~] = uigetfile([start_dir '/*.ulg'], 'Select the .ulg file');
-[~, current_fileName, ~] = fileparts([current_dir_PathName FileNameDotExt]);
+if FileNameDotExt ~= 0 
+    [~, current_fileName, ~] = fileparts([current_dir_PathName FileNameDotExt]);
+else
+    current_fileName = handles.current_fileName;
+    current_dir_PathName = handles.current_dir_PathName;
+end
 end
 
 
