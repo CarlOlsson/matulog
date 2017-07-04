@@ -188,6 +188,7 @@ defaults.current_fileName = handles.current_fileName;
 defaults.current_dir_PathName = handles.current_dir_PathName;
 save('defaults.mat','defaults');
 delete(hObject);
+clear defaults
 
 function line_spec_lines_Callback(hObject, eventdata, handles)
 handles.line_spec = '-';
@@ -253,4 +254,6 @@ function topbar_plot_Callback(hObject, eventdata, handles)
 
 function topbar_export_plot_Callback(hObject, eventdata, handles)
 [FileName,PathName,~] = uiputfile('','Save image as',handles.current_dir_PathName);
-export_fig(handles.axes1, [PathName FileName]);
+if FileName ~= 0 
+    export_fig(handles.axes1, [PathName FileName]);
+end
