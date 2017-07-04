@@ -63,6 +63,9 @@ if exist('defaults.mat')
     load 'defaults.mat';
     handles.current_fileName = defaults.current_fileName;
     handles.current_dir_PathName = defaults.current_dir_PathName;
+    if ~exist([handles.current_dir_PathName handles.current_fileName '.mat']) || ~exist([handles.current_dir_PathName handles.current_fileName '.ulg'])
+        [handles.current_fileName, handles.current_dir_PathName] = get_current_logfile_popup(handles);
+    end
 else
     [handles.current_fileName, handles.current_dir_PathName] = get_current_logfile_popup(handles);
 end
