@@ -22,7 +22,7 @@ function varargout = matulog(varargin)
 
 % Edit the above text to modify the response to help matulog
 
-% Last Modified by GUIDE v2.5 02-Jul-2017 17:08:53
+% Last Modified by GUIDE v2.5 04-Jul-2017 16:33:26
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -57,6 +57,7 @@ handles.output = hObject;
 
 % Add gui_functions folder to path
 addpath(genpath([pwd '/gui_functions']))
+addpath(genpath([pwd '/utilities']))
 
 % Get name of logfile and path
 if exist('defaults.mat')
@@ -249,3 +250,7 @@ if strcmp(eventdata.Key,'leftarrow')
 end
 
 function topbar_plot_Callback(hObject, eventdata, handles)
+
+function topbar_export_plot_Callback(hObject, eventdata, handles)
+[FileName,PathName,~] = uiputfile('','Save image as',handles.current_dir_PathName);
+export_fig(handles.axes1, [PathName FileName]);
