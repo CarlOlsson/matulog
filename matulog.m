@@ -55,7 +55,7 @@ function matulog_OpeningFcn(hObject, eventdata, handles, varargin)
 % Choose default command line output for matulog
 handles.output = hObject;
 
-% Add gui_functions folder to path
+% Add gui_functions folders to path
 addpath(genpath([pwd '/gui_functions']))
 addpath(genpath([pwd '/utilities']))
 
