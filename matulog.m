@@ -235,6 +235,7 @@ function listbox_topics_KeyPressFcn(hObject, eventdata, handles)
 %	Modifier: name(s) of the modifier key(s) (i.e., control, shift) pressed
 % handles    structure with handles and user data (see GUIDATA
 if strcmp(eventdata.Key,'rightarrow')
+    set(handles.listbox_fieldnames,'Value',1);
     uicontrol(handles.listbox_fieldnames) % Make listbox_fieldnames active
 end
 
