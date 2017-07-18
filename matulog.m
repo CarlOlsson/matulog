@@ -85,6 +85,7 @@ handles.line_width = 1;
 set(handles.listbox_topics,'Value',1);
 set(handles.listbox_fieldnames,'Value',1);
 handles.data.(handles.selected_topic).Properties.UserData = 1;
+handles.selected_var = get_selected_var( handles );
 
 % Update handles structure
 guidata(hObject, handles);
@@ -133,10 +134,10 @@ handles.data.(handles.selected_topic).Properties.UserData = get(hObject,'Value')
 
 
 % Get which fields are currently selected
-% handles.selected_field = handles.data.(handles.selected_topic{1}).Properties.VariableNames(get(hObject,'Value'));
+handles.selected_var = get_selected_var( handles );
 update_plot(handles)
 guidata(hObject, handles);
-% guidata(hObject, handles);
+
 % get(gcf,'selectiontype')
 % key1 = get(gcf,'CurrentKey');
 
@@ -154,9 +155,9 @@ index = find(contains(handles.ulog_files_in_dir, handles.current_fileName));
 set(handles.popupmenu_logfiles, 'Value', index);
 
 % Make the fieldnames in the listbox that are currently displayed grey
-set(handles.listbox_topics,'Value',1);
-set(handles.listbox_fieldnames,'Value',1);
-handles.data.(handles.selected_topic).Properties.UserData = 1;
+% set(handles.listbox_topics,'Value',1);
+% set(handles.listbox_fieldnames,'Value',1);
+% handles.data.(handles.selected_topic).Properties.UserData = 1;
 update_plot(handles)
 guidata(hObject, handles);
 uicontrol(handles.listbox_topics) % Make listbox_topics active

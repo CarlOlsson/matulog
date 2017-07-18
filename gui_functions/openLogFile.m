@@ -22,10 +22,16 @@ eval(['cd ' current_path]);
 set(handles.figure1, 'Name', ['Matulog - ' handles.current_dir_PathName handles.current_fileName '.ulg']);
 
 handles.topic_names = fieldnames(handles.data);
-handles.selected_topic = handles.topic_names{1};
-handles.selected_field = handles.data.(handles.topic_names{1}).Properties.VariableNames{1};
+if ~isfield(handles,'selected_topic') || ~any(contains(handles.topic_names,handles.selected_topic))
+    handles.selected_topic = handles.topic_names{1};
+    handles.selected_field = handles.data.(handles.topic_names{1}).Properties.VariableNames{1};
+    set(handles.listbox_topics,'Value',1);
+    set(handles.listbox_fieldnames,'Value',1);
+    handles.data.(handles.selected_topic).Properties.UserData = 1;
+    handles.selected_var = get_selected_var( handles );
+end
 set(handles.listbox_topics,'String',handles.topic_names);
-set(handles.listbox_fieldnames,'String',handles.data.(handles.topic_names{1}).Properties.VariableDescriptions);
+set(handles.listbox_fieldnames,'String',handles.data.(handles.selected_topic).Properties.VariableDescriptions);
 set(handles.popupmenu_logfiles,'String',handles.ulog_files_in_dir);
 index = find(contains(handles.ulog_files_in_dir, handles.current_fileName));
 set(handles.popupmenu_logfiles, 'Value', index);
