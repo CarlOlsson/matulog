@@ -238,6 +238,17 @@ function listbox_topics_KeyPressFcn(hObject, eventdata, handles)
 if strcmp(eventdata.Key,'rightarrow')
     set(handles.listbox_fieldnames,'Value',1);
     uicontrol(handles.listbox_fieldnames) % Make listbox_fieldnames active
+    
+    for i = 1:length(handles.topic_names)
+        handles.data.(handles.topic_names{i}).Properties.UserData = [];
+    end
+    % Mark selected fields for display
+    handles.data.(handles.selected_topic).Properties.UserData = 1;
+    
+    % Get which fields are currently selected
+    handles.selected_var = get_selected_var( handles );
+    update_plot(handles)
+    guidata(hObject, handles);
 end
 
 % --- Executes on key press with focus on listbox_fieldnames and none of its controls.
@@ -256,6 +267,6 @@ function topbar_plot_Callback(hObject, eventdata, handles)
 
 function topbar_export_plot_Callback(hObject, eventdata, handles)
 [FileName,PathName,~] = uiputfile('','Save image as',handles.current_dir_PathName);
-if FileName ~= 0 
+if FileName ~= 0
     export_fig(handles.axes1, [PathName FileName]);
 end
