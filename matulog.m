@@ -169,9 +169,9 @@ handles.current_fileName = handles.ulog_files_in_dir{get(hObject,'Value')};
 run openLogFile.m
 
 % Make the fieldnames in the listbox that are currently displayed grey
-set(handles.listbox_topics,'Value',1);
-set(handles.listbox_fieldnames,'Value',1);
-handles.data.(handles.selected_topic).Properties.UserData = 1;
+% set(handles.listbox_topics,'Value',1);
+% set(handles.listbox_fieldnames,'Value',1);
+% handles.data.(handles.selected_topic).Properties.UserData = 1;
 update_plot(handles)
 guidata(hObject, handles);
 
