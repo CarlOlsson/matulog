@@ -84,8 +84,12 @@ handles.line_width = 1;
 
 set(handles.listbox_topics,'Value',1);
 set(handles.listbox_fieldnames,'Value',1);
-handles.data.(handles.selected_topic).Properties.UserData = 1;
-handles.selected_var = get_selected_var( handles );
+
+handles.currently_selected_variables(1).topic = handles.selected_topic;
+handles.currently_selected_variables(1).field = handles.selected_field;
+handles.currently_selected_variables(1).field_name = handles.data.(handles.selected_topic).Properties.VariableDescriptions{1};
+
+handles.currently_displayed_variables = get_selected_var( handles );
 
 % Update handles structure
 guidata(hObject, handles);
@@ -108,7 +112,7 @@ handles.selected_topic = handles.topic_names{get(hObject,'Value')};
 set(handles.listbox_fieldnames,'String',handles.data.(handles.selected_topic).Properties.VariableDescriptions);
 
 % Make the fieldnames in the listbox that are currently displayed grey
-set(handles.listbox_fieldnames,'Value',handles.data.(handles.selected_topic).Properties.UserData);
+set(handles.listbox_fieldnames,'Value',find(contains(handles.listbox_fieldnames.String,{handles.currently_selected_variables(strcmp({handles.currently_selected_variables.topic},handles.selected_topic)).field_name}')));
 
 guidata(hObject, handles);
 % get(gcf,'selectiontype')
@@ -124,22 +128,25 @@ function listbox_fieldnames_Callback(hObject, eventdata, handles)
 % Check if ctrl was pressed, if not -> clear all variables to display
 ctrlIsPressed = ismember('control',get(gcf,'currentModifier'));
 if ctrlIsPressed == 0
-    for i = 1:length(handles.topic_names)
-        handles.data.(handles.topic_names{i}).Properties.UserData = [];
-    end
+    handles.currently_selected_variables = [];
+    L = 0;
+else
+    handles.currently_selected_variables(strcmp({handles.currently_selected_variables.topic},handles.selected_topic)) = [];
+    L = length(handles.currently_selected_variables);
+end
+selected = get(hObject,'Value');
+for i = 1:length(selected)
+    handles.currently_selected_variables(L+i).topic = handles.selected_topic;
+    handles.currently_selected_variables(L+i).field = handles.data.(handles.selected_topic).Properties.VariableNames{selected(i)};
+    handles.currently_selected_variables(L+i).field_name = handles.data.(handles.selected_topic).Properties.VariableDescriptions{selected(i)};
 end
 
-% Mark selected fields for display
-handles.data.(handles.selected_topic).Properties.UserData = get(hObject,'Value');
-
-
 % Get which fields are currently selected
-handles.selected_var = get_selected_var( handles );
+handles.currently_displayed_variables = get_selected_var( handles );
+
+% {handles.selected_var.field_name}'
 update_plot(handles)
 guidata(hObject, handles);
-
-% get(gcf,'selectiontype')
-% key1 = get(gcf,'CurrentKey');
 
 % --- Executes during object creation, after setting all properties.
 function listbox_fieldnames_CreateFcn(hObject, eventdata, handles)
@@ -153,11 +160,6 @@ run openLogFile.m
 set(handles.popupmenu_logfiles,'String',handles.ulog_files_in_dir);
 index = find(contains(handles.ulog_files_in_dir, handles.current_fileName));
 set(handles.popupmenu_logfiles, 'Value', index);
-
-% Make the fieldnames in the listbox that are currently displayed grey
-% set(handles.listbox_topics,'Value',1);
-% set(handles.listbox_fieldnames,'Value',1);
-% handles.data.(handles.selected_topic).Properties.UserData = 1;
 update_plot(handles)
 guidata(hObject, handles);
 uicontrol(handles.listbox_topics) % Make listbox_topics active
@@ -165,13 +167,7 @@ uicontrol(handles.listbox_topics) % Make listbox_topics active
 % --- Executes on selection change in popupmenu_logfiles.
 function popupmenu_logfiles_Callback(hObject, eventdata, handles)
 handles.current_fileName = handles.ulog_files_in_dir{get(hObject,'Value')};
-
 run openLogFile.m
-
-% Make the fieldnames in the listbox that are currently displayed grey
-% set(handles.listbox_topics,'Value',1);
-% set(handles.listbox_fieldnames,'Value',1);
-% handles.data.(handles.selected_topic).Properties.UserData = 1;
 update_plot(handles)
 guidata(hObject, handles);
 
@@ -239,14 +235,13 @@ if strcmp(eventdata.Key,'rightarrow')
     set(handles.listbox_fieldnames,'Value',1);
     uicontrol(handles.listbox_fieldnames) % Make listbox_fieldnames active
     
-    for i = 1:length(handles.topic_names)
-        handles.data.(handles.topic_names{i}).Properties.UserData = [];
-    end
-    % Mark selected fields for display
-    handles.data.(handles.selected_topic).Properties.UserData = 1;
-    
+    handles.currently_selected_variables = [];
+    handles.currently_selected_variables(1).topic = handles.selected_topic;
+    handles.currently_selected_variables(1).field = handles.data.(handles.selected_topic).Properties.VariableNames{1};
+    handles.currently_selected_variables(1).field_name = handles.data.(handles.selected_topic).Properties.VariableDescriptions{1};
+
     % Get which fields are currently selected
-    handles.selected_var = get_selected_var( handles );
+    handles.currently_displayed_variables = get_selected_var( handles );
     update_plot(handles)
     guidata(hObject, handles);
 end

@@ -27,8 +27,7 @@ if ~isfield(handles,'selected_topic') || ~any(contains(handles.topic_names,handl
     handles.selected_field = handles.data.(handles.topic_names{1}).Properties.VariableNames{1};
     set(handles.listbox_topics,'Value',1);
     set(handles.listbox_fieldnames,'Value',1);
-    handles.data.(handles.selected_topic).Properties.UserData = 1;
-    handles.selected_var = get_selected_var( handles );
+%     handles.selected_var = get_selected_var( handles );
 end
 set(handles.listbox_topics,'String',handles.topic_names);
 set(handles.listbox_fieldnames,'String',handles.data.(handles.selected_topic).Properties.VariableDescriptions);

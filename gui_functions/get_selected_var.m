@@ -1,4 +1,4 @@
-function selected_var = get_selected_var( handles )
+function currently_displayed_variables = get_selected_var( handles )
 %UNTITLED2 Summary of this function goes here
 %   Detailed explanation goes here
 persistent disp_variables       % Variables to display in order
@@ -13,31 +13,9 @@ if ctrlIsPressed == 0
     color = [];
     selected_var_tmp = [];
 end
-currently_displayed_topic = [];
-currently_displayed_field = [];
-currently_displayed_field_name = [];
-count = 0;
-for i = 1:length(handles.topic_names)
-    topic_name_i = handles.topic_names{i};
-    idx = handles.data.(topic_name_i).Properties.UserData;
-    topic_fieldnames = fieldnames(handles.data.(topic_name_i));
-    topic_fieldnames_name = handles.data.(topic_name_i).Properties.VariableDescriptions;
-    if ~isempty(idx)
-        for j = idx
-            count = count + 1;
-            if count < 15
-            topic_field = topic_fieldnames(j);
-            topic_field_name = topic_fieldnames_name(j);
-            currently_displayed_topic{count} = topic_name_i;
-            currently_displayed_field = [currently_displayed_field;topic_field];
-            currently_displayed_field_name = [currently_displayed_field_name;topic_field_name];
-            end
-        end
-    end
-end
 
-selected_var_tmp.array = [currently_displayed_topic' currently_displayed_field];
-selected_var_tmp.array_names = [currently_displayed_topic' currently_displayed_field_name];
+selected_var_tmp.array = [{handles.currently_selected_variables.topic}' {handles.currently_selected_variables.field}'];
+selected_var_tmp.array_names = [{handles.currently_selected_variables.topic}' {handles.currently_selected_variables.field_name}'];
 
 selected_var_tmp.var_merged = [];
 for i = 1:size(selected_var_tmp.array,1)
@@ -112,10 +90,10 @@ for i = 1:length(selected_var_tmp.var_merged)
     [row, ~] = find(cellfun(@(x) any(strcmp(x, selected_var_tmp.var_merged_sorted{i})), color));
     selected_var_tmp.color_sorted{i,1} = color{row,1};
     selected_var_tmp.names_sorted{i,1} = disp_variables.names{i};
-    selected_var(i).topic = tmp{1};
-    selected_var(i).field = tmp{2};
-    selected_var(i).field_name = disp_variables.names{i};
-    selected_var(i).color = color{row,1};
+    currently_displayed_variables(i).topic = tmp{1};
+    currently_displayed_variables(i).field = tmp{2};
+    currently_displayed_variables(i).full_name = disp_variables.names{i};
+    currently_displayed_variables(i).color = color{row,1};
 end
 end
 
