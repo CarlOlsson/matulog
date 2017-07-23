@@ -10,4 +10,10 @@ grid on
 xlim([time_vector(1) time_vector(end)])
 legend({handles.currently_displayed_variables.full_name}, 'Interpreter', 'none');
 xlabel('Time [s]')
+
+%Pass the handles struct to the cursor fcn
+setappdata(gca,'handles',handles);
+dcmObj = datacursormode(gcf);
+set(dcmObj,'UpdateFcn',@matulog_cursor_fcn,'Enable','on');
+    
 end
