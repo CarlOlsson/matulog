@@ -24,10 +24,15 @@ set(handles.figure1, 'Name', ['Matulog - ' handles.current_dir_PathName handles.
 handles.topic_names = fieldnames(handles.data);
 if ~isfield(handles,'selected_topic') || ~any(contains(handles.topic_names,handles.selected_topic))
     handles.selected_topic = handles.topic_names{1};
-    handles.selected_field = handles.data.(handles.topic_names{1}).Properties.VariableNames{1};
     set(handles.listbox_topics,'Value',1);
     set(handles.listbox_fieldnames,'Value',1);
-%     handles.selected_var = get_selected_var( handles );
+    handles.currently_selected_variables = [];
+    handles.currently_selected_variables(1).topic = handles.selected_topic;
+    handles.currently_selected_variables(1).field = handles.data.(handles.selected_topic).Properties.VariableNames{1};
+    handles.currently_selected_variables(1).field_name = handles.data.(handles.selected_topic).Properties.VariableDescriptions{1};
+
+else
+    set(handles.listbox_topics,'Value',find(strcmp(handles.topic_names,handles.selected_topic)));
 end
 set(handles.listbox_topics,'String',handles.topic_names);
 set(handles.listbox_fieldnames,'String',handles.data.(handles.selected_topic).Properties.VariableDescriptions);

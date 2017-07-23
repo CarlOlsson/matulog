@@ -86,10 +86,10 @@ set(handles.listbox_topics,'Value',1);
 set(handles.listbox_fieldnames,'Value',1);
 
 handles.currently_selected_variables(1).topic = handles.selected_topic;
-handles.currently_selected_variables(1).field = handles.selected_field;
+handles.currently_selected_variables(1).field = handles.data.(handles.selected_topic).Properties.VariableNames{1};
 handles.currently_selected_variables(1).field_name = handles.data.(handles.selected_topic).Properties.VariableDescriptions{1};
 
-handles.currently_displayed_variables = get_selected_var( handles );
+handles.currently_displayed_variables = get_currently_displayed_variables( handles );
 
 % Update handles structure
 guidata(hObject, handles);
@@ -112,10 +112,14 @@ handles.selected_topic = handles.topic_names{get(hObject,'Value')};
 set(handles.listbox_fieldnames,'String',handles.data.(handles.selected_topic).Properties.VariableDescriptions);
 
 % Make the fieldnames in the listbox that are currently displayed grey
-set(handles.listbox_fieldnames,'Value',find(contains(handles.listbox_fieldnames.String,{handles.currently_selected_variables(strcmp({handles.currently_selected_variables.topic},handles.selected_topic)).field_name}')));
+idx = [];
+logic_topic = find(strcmp({handles.currently_selected_variables.topic},handles.selected_topic));
+for i = 1:length(logic_topic)
+    idx(i) = find(strcmp(handles.listbox_fieldnames.String,{handles.currently_selected_variables(logic_topic(i)).field_name}));
+end
+set(handles.listbox_fieldnames,'Value',idx);
 
 guidata(hObject, handles);
-% get(gcf,'selectiontype')
 
 % --- Executes during object creation, after setting all properties.
 function listbox_topics_CreateFcn(hObject, eventdata, handles)
@@ -142,7 +146,7 @@ for i = 1:length(selected)
 end
 
 % Get which fields are currently selected
-handles.currently_displayed_variables = get_selected_var( handles );
+handles.currently_displayed_variables = get_currently_displayed_variables( handles );
 
 % {handles.selected_var.field_name}'
 update_plot(handles)
@@ -160,6 +164,7 @@ run openLogFile.m
 set(handles.popupmenu_logfiles,'String',handles.ulog_files_in_dir);
 index = find(contains(handles.ulog_files_in_dir, handles.current_fileName));
 set(handles.popupmenu_logfiles, 'Value', index);
+handles.currently_displayed_variables = get_currently_displayed_variables( handles );
 update_plot(handles)
 guidata(hObject, handles);
 uicontrol(handles.listbox_topics) % Make listbox_topics active
@@ -168,6 +173,7 @@ uicontrol(handles.listbox_topics) % Make listbox_topics active
 function popupmenu_logfiles_Callback(hObject, eventdata, handles)
 handles.current_fileName = handles.ulog_files_in_dir{get(hObject,'Value')};
 run openLogFile.m
+handles.currently_displayed_variables = get_currently_displayed_variables( handles );
 update_plot(handles)
 guidata(hObject, handles);
 
@@ -241,7 +247,7 @@ if strcmp(eventdata.Key,'rightarrow')
     handles.currently_selected_variables(1).field_name = handles.data.(handles.selected_topic).Properties.VariableDescriptions{1};
 
     % Get which fields are currently selected
-    handles.currently_displayed_variables = get_selected_var( handles );
+    handles.currently_displayed_variables = get_currently_displayed_variables( handles );
     update_plot(handles)
     guidata(hObject, handles);
 end
