@@ -1,4 +1,4 @@
-function ulg2mat( ulgFileName )
+function log = ulg2mat( ulgFileName )
 %ulg2mat Converts a .ulg file to a .mat file
 if exist([ulgFileName '.mat'])
     disp('ERROR: mat file already exists');
@@ -10,9 +10,13 @@ try
 catch
 	disp('ERROR: failed to run ulog2csv, try: pip install pyulog');
 end
-data = csv_topics_to_d(ulgFileName);
-save(ulgFileName,'data')
-clear data
+log.data = csv_topics_to_d(ulgFileName);
+log.FileName = ulgFileName;
+log.matulog_version = 1.0;
+log.params = '';
+log.messages = '';
+log.info = '';
+save(ulgFileName,'log')
 delete(['*' ulgFileName '*.csv'])
 end
 

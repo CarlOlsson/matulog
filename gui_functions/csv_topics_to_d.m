@@ -1,6 +1,6 @@
 function data = csv_topics_to_d( ulgFileName )
 all_topics = dir(['*' ulgFileName '*.csv']);
-h = waitbar(0,'Converting .ulg till .mat file. Please wait...');
+h = waitbar(0,'Converting .ulg to .mat file. Please wait...');
 steps = length(all_topics);
 for i = 1:length(all_topics)
     waitbar(i / steps)

@@ -3,12 +3,14 @@ eval(['cd ' handles.current_dir_PathName])
 set(handles.figure1, 'pointer', 'watch')
 drawnow;
 if ~exist([handles.current_fileName '.mat'])
-    ulg2mat(handles.current_fileName);
+    log = ulg2mat(handles.current_fileName);
+else
+    load([handles.current_fileName '.mat']);
 end
-load([handles.current_fileName '.mat']);
+
 set(handles.figure1, 'pointer', 'arrow')
-handles.data = data;
-clear data
+handles.data = log.data;
+clear log
 tmp = dir('*.ulg');
 % Remove .ulg extension
 for i = 1:length(tmp)
