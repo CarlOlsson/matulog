@@ -22,7 +22,7 @@ function varargout = matulog(varargin)
 
 % Edit the above text to modify the response to help matulog
 
-% Last Modified by GUIDE v2.5 04-Jul-2017 16:33:26
+% Last Modified by GUIDE v2.5 30-Jul-2017 14:46:35
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -271,3 +271,11 @@ function topbar_export_plot_Callback(hObject, eventdata, handles)
 if FileName ~= 0
     export_fig(handles.axes1, [PathName FileName]);
 end
+
+function redo_processing_Callback(hObject, eventdata, handles)
+delete([handles.current_dir_PathName handles.current_fileName '.mat'])
+run openLogFile.m
+handles.currently_displayed_variables = get_currently_displayed_variables( handles );
+update_plot(handles)
+guidata(hObject, handles);
+
