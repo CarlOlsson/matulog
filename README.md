@@ -1,4 +1,7 @@
-- pyulog is needed for matulog to run, install it using ```pip install pyulog```
+- Requirements:
+matlab2016a (or a newer version)
+pyulog is needed for matulog to run, install it using ```pip install pyulog```
+
 - clone or download the repo
 - in Matlab run matulog
 - Open a ulog file
