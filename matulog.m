@@ -60,7 +60,7 @@ addpath(genpath([pwd '/gui_functions']))
 addpath(genpath([pwd '/utilities']))
 
 % Get name of logfile and path
-if exist('defaults.mat')
+if exist([pwd '/defaults.mat']) == 2
     load 'defaults.mat';
     handles.current_fileName = defaults.current_fileName;
     handles.current_dir_PathName = defaults.current_dir_PathName;

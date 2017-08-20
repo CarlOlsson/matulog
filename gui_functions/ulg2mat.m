@@ -7,16 +7,17 @@ end
 command = ['!ulog2csv ' ulgFileName '.ulg'];
 try
 	eval(command);
+    log.data = csv_topics_to_d(ulgFileName);
+    log.FileName = ulgFileName;
+    log.matulog_version = 1.0;
+    log.params = '';
+    log.messages = '';
+    log.info = '';
+    save(ulgFileName,'log')
+    delete(['*' ulgFileName '*.csv'])
 catch
 	disp('ERROR: failed to run ulog2csv, try: pip install pyulog');
 end
-log.data = csv_topics_to_d(ulgFileName);
-log.FileName = ulgFileName;
-log.matulog_version = 1.0;
-log.params = '';
-log.messages = '';
-log.info = '';
-save(ulgFileName,'log')
-delete(['*' ulgFileName '*.csv'])
+
 end
 
