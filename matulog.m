@@ -22,7 +22,7 @@ function varargout = matulog(varargin)
 
 % Edit the above text to modify the response to help matulog
 
-% Last Modified by GUIDE v2.5 30-Jul-2017 14:46:35
+% Last Modified by GUIDE v2.5 20-Aug-2017 11:10:52
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -278,4 +278,3 @@ run openLogFile.m
 handles.currently_displayed_variables = get_currently_displayed_variables( handles );
 update_plot(handles)
 guidata(hObject, handles);
-
