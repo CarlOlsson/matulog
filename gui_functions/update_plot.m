@@ -15,7 +15,11 @@ end
 
 hold off
 grid on
-xlim([x_min x_max])
+try
+    xlim([x_min x_max])
+catch
+    disp('Failed setting xlim, no datapoints logged for the selected topic?')
+end
 legend({handles.currently_displayed_variables.full_name}, 'Interpreter', 'none');
 xlabel('Time [s]')
 
