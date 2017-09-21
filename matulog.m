@@ -22,7 +22,7 @@ function varargout = matulog(varargin)
 
 % Edit the above text to modify the response to help matulog
 
-% Last Modified by GUIDE v2.5 20-Aug-2017 11:10:52
+% Last Modified by GUIDE v2.5 21-Sep-2017 16:20:25
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -278,3 +278,23 @@ run openLogFile.m
 handles.currently_displayed_variables = get_currently_displayed_variables( handles );
 update_plot(handles)
 guidata(hObject, handles);
+
+
+% --------------------------------------------------------------------
+function visualize_attitude_Callback(hObject, eventdata, handles)
+% Save the current GUI title
+tmp = handles.figure1.Name;
+handles.figure1.Name = 'Select the time interval in the plot that you want to visualize';
+
+% Let the user select range of data to visualize
+rect = getrect(handles.axes1);
+
+% Find indices
+ind_start = (find(rect(1) < handles.data.vehicle_attitude_0.timestamp/1e6,1));
+ind_end = (find(rect(1) + rect(3) < handles.data.vehicle_attitude_0.timestamp/1e6,1));
+
+% Reset the GUI title
+handles.figure1.Name = tmp;
+Q = [handles.data.vehicle_attitude_0.q_0_ handles.data.vehicle_attitude_0.q_1_ handles.data.vehicle_attitude_0.q_2_ handles.data.vehicle_attitude_0.q_3_];
+rotm = quat2rotm(Q);
+visualize_rotm(rotm(:,:,ind_start:ind_end), handles.data.vehicle_attitude_0.timestamp(ind_start:ind_end));
