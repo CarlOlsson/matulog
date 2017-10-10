@@ -13,6 +13,7 @@ try
     log.params = '';
     log.messages = '';
     log.info = '';
+    run add_fields_in_preprocessing.m
     save(ulgFileName,'log')
     delete(['*' ulgFileName '*.csv'])
 catch
